@@ -7,7 +7,7 @@
     "email": "johnzeng878@gmail.com",
     "github": "github.com/JLZ22"
   },
-  "description": "Gives you the number of occurences of a specific phrase in highlighted text.",
+  "description": "Gives you the number of occurences of a specific phrase in highlighted text. Activate with ctrl + q.",
   "content_scripts": [
     {
       "js": ["scripts/content.js"],
