@@ -26,5 +26,8 @@
         "mac": "Command+q"
       }
     }
+  },
+  "background": {
+    "service_worker": "background.js"
   }
 }
