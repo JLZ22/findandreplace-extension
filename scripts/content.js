@@ -33,7 +33,5 @@ function getHTMLOfSelection () {
 }
 
 window.onkeydown = function(event) {
-  if (event.ctrlKey && event.key == "q") {
-    openPrompt(window.getSelection);
-  }
+  alert("s");
 }
