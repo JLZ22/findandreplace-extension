@@ -1,9 +1,9 @@
-function getSelected() {
-  let text = "";
-  if (typeof window.getSelection != "undefined") {
-      text = window.getSelection().toString();
-  } else if (typeof document.selection != "undefined" && document.selection.type == "Text") {
-      text = document.selection.createRange().text;
+function openPrompt(selection) {
+  
+}
+
+document.onkeydown = function(event) {
+  if (event.ctrlKey && event.key == "q") {
+    openPrompt(window.getSelection);
   }
-  return text;
 }
