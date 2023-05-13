@@ -1,1 +1,1 @@
-alert("popup");
+console.log("popup");
