@@ -1,0 +1,1 @@
+let worker = new Worker("worker.js");
