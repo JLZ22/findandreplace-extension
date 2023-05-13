@@ -1,1 +1,1 @@
-This is a chrome extension that is meant to allow the user to find/replace words within a highlighted piece of text instead of the entire document.
+This is a chrome extension that displays the number of words in a highlighted block of text. It can also display the number of a specific word in a highlighted block of text.

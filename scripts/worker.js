@@ -9,7 +9,7 @@ function getSelected() {
 }
 
 function findPrompt() {
-  let word = prompt("Enter the word you would like to find.");
+  let word = prompt("Enter the word you would like to count.");
   alert(word);
 }
 findPrompt()
