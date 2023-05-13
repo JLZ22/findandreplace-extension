@@ -7,10 +7,6 @@
     "email": "johnzeng878@gmail.com",
     "github": "github.com/JLZ22"
   },
-  "action": {
-    "default_title": "Highlight Find and Replace",
-    "default_popup": "popup.html"
-  },
   "description": "Allows you to use 'ctrl/cmd + f' on a highlighted piece of text instead of the entire page.",
   "content_scripts": [
     {
