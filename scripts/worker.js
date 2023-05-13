@@ -7,21 +7,3 @@ function getSelected() {
   }
   return text;
 }
-
-function findPrompt() {
-  let word = prompt("Enter the word you would like to count.");
-  alert(word);
-}
-findPrompt()
-// document.onmouseup = function(event) {
-//   let text = getSelected
-//   document.onkeydown = function(e) {
-//     if (e.ctrlKey) {
-//       document.onkeydown = function(ev) {
-//         if (ev.key == "q") {
-//           findPrompt(text);
-//         }
-//       }
-//     }
-//   }
-// }
