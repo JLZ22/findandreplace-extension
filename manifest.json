@@ -3,7 +3,6 @@
   "name": "Highlight Find and Replace",
   "version": "0.1",
   "version_name": "barebones beta",
-  "default_locale": "en",
   "author": {
     "email": "johnzeng878@gmail.com",
     "github": "github.com/JLZ22"
