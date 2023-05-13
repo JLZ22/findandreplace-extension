@@ -33,5 +33,7 @@ function getHTMLOfSelection () {
 }
 
 window.onkeydown = function(event) {
-  alert("s");
+  if (event.key == "q") {
+    alert("q");
+  }
 }

@@ -3,14 +3,13 @@
   "name": "Highlight Find and Replace",
   "version": "0.1",
   "version_name": "barebones beta",
-  "default_locale": "en",
   "author": {
     "email": "johnzeng878@gmail.com",
     "github": "github.com/JLZ22"
   },
   "action": {
     "default_title": "Highlight Find and Replace",
-    "default_popup": "popup.html"
+    "default_popup": "poupup/popup.html"
   },
   "description": "Allows you to use 'ctrl/cmd + f' on a highlighted piece of text instead of the entire page.",
   "content_scripts": [
@@ -22,8 +21,8 @@
   "commands": {
     "_execute_action": {
       "suggested_key": {
-        "default": "Ctrl+q",
-        "mac": "Command+q"
+        "default": "Ctrl+Q",
+        "mac": "Command+Q"
       }
     }
   },
