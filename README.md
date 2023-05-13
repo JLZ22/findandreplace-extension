@@ -1,1 +1,1 @@
-This is a chrome extension that displays the number of words in a highlighted block of text. It can also display the number of a specific word in a highlighted block of text.
+This version uses alerts and prompts to show the number of occurences of a given phrase within the highlighted text. Prompt displays when "ctrl+q" is pressed.
