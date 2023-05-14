@@ -24,8 +24,5 @@
         "mac": "Command+Q"
       }
     }
-  },
-  "background": {
-    "service_worker": "background.js"
   }
 }

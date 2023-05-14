@@ -1,7 +1,7 @@
-function getSelectedText(selection) {
+function getSelectedText() {
   let text = "";
-  if (typeof selection != "undefined") {
-      text = selection().toString();
+  if (typeof window.getSelection != "undefined") {
+      text = window.getSelection.toString();
   } else if (typeof document.selection != "undefined" && document.selection.type == "Text") {
       text = document.selection.createRange().text;
   }
@@ -32,8 +32,14 @@ function getHTMLOfSelection () {
   }
 }
 
-window.onkeydown = function(event) {
-  if (event.key == "q") {
-    alert("q");
-  }
-}
+onmouseup = function(e) {
+  let selection = window.getSelection();
+  let html = getHTMLOfSelection();
+  let text = getSelectedText();
+  chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    console.log("Content: Message Number " + message[0] + 
+    "| Message '" + message + "'");
+    //do the highlighting n shit
+    sendResponse("success");
+  });
+};
