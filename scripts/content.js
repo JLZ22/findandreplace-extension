@@ -36,10 +36,10 @@ onmouseup = (ev) => {
   var selection = getSelection();
   var html = getHTMLOfSelection();
   var text = getSelectedText();
+  console.log("selection stored")
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   console.log("Content:" + message);
   //do the highlighting n shit
-  sendResponse("success");
 });
