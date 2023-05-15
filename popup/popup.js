@@ -1,3 +1,4 @@
+console.log("popup running")
 document.getElementById("search").onclick = (ev) => {
   console.log("search button");
   sendData()};
