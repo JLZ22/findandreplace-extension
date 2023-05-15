@@ -31,11 +31,11 @@ function getHTMLOfSelection () {
     return '';
   }
 }
-let selection, html, text;
+
 onmouseup = (ev) => {
-  selection = getSelection();
-  html = getHTMLOfSelection();
-  text = getSelectedText();
+  var selection = getSelection();
+  var html = getHTMLOfSelection();
+  var text = getSelectedText();
   this.alert("got selection")
 }
 
