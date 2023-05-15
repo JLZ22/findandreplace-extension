@@ -1,11 +1,11 @@
-let count = 0;
-onkeydown = function(e) {
+onkeydown = (e) => {
   if (e.key === "Enter") {
-    let phrase = document.getElementById("phrase").ariaValueText;
-    const [tab] = chrome.tabs.query({active: true, currentWindow: true});
-    chrome.runtime.sendMessage([count, phrase], (response) => {
-      console.log(count + ": " + response);
-      count++;
+    // let phrase = "";
+    // phrase = document.getElementById("phrase").value;
+    chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, "phrase", (response) => {
+        console.log("Popup: " + response);
+      });
     });
   }
 }

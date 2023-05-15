@@ -24,5 +24,11 @@
         "mac": "Command+Q"
       }
     }
+  },
+  "permissions": [
+    "tabs"
+  ],
+  "background": {
+    "service worker": "background.js"
   }
 }

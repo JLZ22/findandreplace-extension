@@ -31,15 +31,17 @@ function getHTMLOfSelection () {
     return '';
   }
 }
+let selection, html, text;
+onmouseup = (ev) => {
+  selection = getSelection();
+  html = getHTMLOfSelection();
+  text = getSelectedText();
+  this.alert("got selection")
+}
 
-onmouseup = function(e) {
-  let selection = window.getSelection();
-  let html = getHTMLOfSelection();
-  let text = getSelectedText();
-  chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    console.log("Content: Message Number " + message[0] + 
-    "| Message '" + message + "'");
-    //do the highlighting n shit
-    sendResponse("success");
-  });
-};
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  console.log("Content:" + message);
+  //do the highlighting n shit
+  this.alert(message)
+  sendResponse("success");
+});
