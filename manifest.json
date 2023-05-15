@@ -26,9 +26,7 @@
     }
   },
   "permissions": [
+    "activeTab",
     "tabs"
-  ],
-  "background": {
-    "service worker": "background.js"
-  }
+  ]
 }
