@@ -1,26 +1,25 @@
-console.log("popup running")
-document.getElementById("search").onclick = (ev) => {
-  console.log("search button");
-  sendData()};
-
-onkeydown = (ev) => {
+console.log("popup running");
+console.log(document);
+document.getElementById("phrase").addEventListener("keydown", (ev) => {
   if (ev.key === "Enter") {
-    ev.preventDefault;
+    ev.preventDefault();
     console.log("keydown event")
-    sendData();
+    document.getElementById("search").click();
   }
-}
+});
+
+document.getElementById("search").addEventListener("click",  (ev) => {
+  console.log("search button");
+  ev.preventDefault();
+  sendData()
+});
 
 function sendData() {
   console.log("beginning to send data")
-  let phrase = null;
-  let el = document.getElementById("phrase");
-  if (el) {
-    phrase = el.value;
-  }
+  let phrase = document.getElementById("phrase").value;
   console.log("phrase: " + phrase)
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     console.log("sending")
-    chrome.tabs.sendMessage(tabs[0].id, "shit");
+    chrome.tabs.sendMessage(tabs[0].id, phrase);
   });
 }
