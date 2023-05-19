@@ -32,8 +32,11 @@ function getHTMLOfSelection () {
   }
 }
 
-onmouseup = (ev) => {
-  
+onmouseup = () => {
+  var selection = getSelection();
+  var html = getHTMLOfSelection();
+  var text = getSelectedText();
+  console.log("selection stored: " + text);
 }
 
 chrome.runtime.onMessage.addListener((request) => {
@@ -41,11 +44,5 @@ chrome.runtime.onMessage.addListener((request) => {
     //do the highlighting n shit
     let phrase = request.message;
     console.log(phrase);
-  }
-  if (request.origin === "background") {
-    var selection = getSelection();
-    var html = getHTMLOfSelection();
-    var text = getSelectedText();
-    console.log("selection stored: " + text);
   }
 });
