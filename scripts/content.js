@@ -33,13 +33,19 @@ function getHTMLOfSelection () {
 }
 
 onmouseup = (ev) => {
-  var selection = getSelection();
-  var html = getHTMLOfSelection();
-  var text = getSelectedText();
-  console.log("selection stored")
+  
 }
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  console.log("Content:" + message);
-  //do the highlighting n shit
+chrome.runtime.onMessage.addListener((request) => {
+  if (request.origin === "popup") {
+    //do the highlighting n shit
+    let phrase = request.message;
+    console.log(phrase);
+  }
+  if (request.origin === "background") {
+    var selection = getSelection();
+    var html = getHTMLOfSelection();
+    var text = getSelectedText();
+    console.log("selection stored: " + text);
+  }
 });
