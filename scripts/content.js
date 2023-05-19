@@ -36,13 +36,9 @@ onmouseup = () => {
   var selection = getSelection();
   var html = getHTMLOfSelection();
   var text = getSelectedText();
-  console.log("selection stored: " + text);
+  console.log("selection stored: " + selection.toString());
 }
 
-chrome.runtime.onMessage.addListener((request) => {
-  if (request.origin === "popup") {
-    //do the highlighting n shit
-    let phrase = request.message;
-    console.log(phrase);
-  }
+chrome.runtime.onMessage.addListener((message) => {
+  console.log(message);
 });

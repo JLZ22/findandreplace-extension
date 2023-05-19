@@ -1,5 +1,5 @@
 console.log("popup running");
-document.getElementById("phrase").addEventListener("change", (ev) => {
+document.getElementById("phrase").addEventListener("input", (ev) => {
   ev.preventDefault();
   console.log("change")
   sendData();
@@ -10,7 +10,7 @@ function sendData() {
   console.log("phrase: " + phrase)
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     console.log("sending")
-    chrome.tabs.sendMessage(tabs[0].id, {origin: "popup", message: phrase});
+    chrome.tabs.sendMessage(tabs[0].id, phrase);
     console.log("-----------------------------------------")
   });
 }
