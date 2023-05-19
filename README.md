@@ -1,1 +1,1 @@
-This is a chrome extension that displays the number of words in a highlighted block of text. It can also display the number of a specific word in a highlighted block of text.
+This is a chrome extension that displays the number of a specific word in a highlighted block of text. It will also highlight those occurences similar to how Ctrl/Cmd + F does on your typical browser. In other words, this extension does the same thing as the typical find and replace function but only for a highlighted section instead of the entire page.
