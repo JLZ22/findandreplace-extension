@@ -32,6 +32,10 @@ function getHTMLOfSelection () {
   }
 }
 
+function find(phrase) {
+  
+}
+
 onmouseup = () => {
   var selection = getSelection();
   var html = getHTMLOfSelection();
@@ -41,4 +45,5 @@ onmouseup = () => {
 
 chrome.runtime.onMessage.addListener((message) => {
   console.log(message);
+  find(message);
 });
