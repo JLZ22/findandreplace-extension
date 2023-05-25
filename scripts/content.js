@@ -32,18 +32,20 @@ function getHTMLOfSelection () {
   }
 }
 
-function find(phrase) {
-  
+function find(phrase, selection, html, text) {
+  console.log('phrase: ' + phrase);
+  console.log('selection: ' + selection);
+  console.log('selection html: ' + html);
 }
 
+var selection, html, text;
+
 onmouseup = () => {
-  var selection = getSelection();
-  var html = getHTMLOfSelection();
-  var text = getSelectedText();
-  console.log("selection stored: " + selection.toString());
+  selection = getSelection();
+  html = getHTMLOfSelection();
+  text = getSelectedText();
 }
 
 chrome.runtime.onMessage.addListener((message) => {
-  console.log(message);
-  find(message);
+  find(message, selection, html, text);
 });
