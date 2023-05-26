@@ -32,20 +32,41 @@ function getHTMLOfSelection () {
   }
 }
 
-function find(phrase, selection, html, text) {
+function find(phrase, selection, html) {
   console.log('phrase: ' + phrase);
   console.log('selection: ' + selection);
   console.log('selection html: ' + html);
+  let data = editHTML(phrase, html);
+  console.log('post manipulation html: ' + data.html);
+  window.getSelection.innerHTML = data.html;
 }
 
-var selection, html, text;
+function editHTML(phrase, html) {
+  let count = 0;
+  let len = phrase.length;
+  let arr = [];
+  if (len <= html.length) {
+    for (let i = 0 ; i <= html.length - len ; i++) {
+      let temp = html.substring(i, i + len);
+      if (temp.toLowerCase() === phrase.toLowerCase()) {
+        count++;
+        arr.push(temp);
+      }
+    }
+    for (let i = 0 ; i < arr.length ; i++) {
+      html = html.replace(arr[i], `<mark>${arr[i]}<mark>`);
+    }
+  }
+  return {count: count, html: html};
+}
+
+var selection, html;
 
 onmouseup = () => {
-  selection = getSelection();
+  selection = window.getSelection();
   html = getHTMLOfSelection();
-  text = getSelectedText();
 }
 
 chrome.runtime.onMessage.addListener((message) => {
-  find(message, selection, html, text);
+  find(message, selection, html);
 });
