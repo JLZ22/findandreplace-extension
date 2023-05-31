@@ -34,32 +34,31 @@ var sanitizeHTML = function (str) {
 	return temp.innerHTML;
 };
 
-function find(phrase, selection, html) {
-  console.log('phrase: ' + phrase);
-  console.log('selection: ' + selection);
-  console.log('selection html: ' + html);
-  let data = editHTML(phrase, html);
-  console.log('post manipulation html: ' + data.html);
-  window.getSelection.innerHTML = data.html;
+function getManipulatedSelection(selection, phrase) {
+  let common = selection.commonAncestorContainer;
+  let count = 0;
+  common.childNodes.forEach(element => {
+    let temp = editText(element.textContent, phrase);
+    element.textContent - temp.text;
+    count += temp.count;
+  });
+  return {node: common, count: count};
 }
 
-function editHTML(phrase, html) {
+function find(phrase, selection, html) { // broken asf use textContent
+  console.log('phrase: ' + phrase);
+  console.log('selection: ' + selection);
+  // console.log('anchor node: ' + selection.anchorNode);
+  // console.log('focus node: ' + selection.focusNode);
+  // console.log('selection html: ' + html);
+  // let data = editHTML(phrase, html);
+  // console.log('post manipulation html: ' + data.html);
+  let data = getManipulatedSelection(selection, phrase);
+}
+
+function editText(textContent, phrase) {
   let count = 0;
-  let len = phrase.length;
-  let arr = [];
-  if (len <= html.length) {
-    for (let i = 0 ; i <= html.length - len ; i++) {
-      let temp = html.substring(i, i + len);
-      if (temp.toLowerCase() === phrase.toLowerCase()) {
-        count++;
-        arr.push(temp);
-      }
-    }
-    for (let i = 0 ; i < arr.length ; i++) {
-      html = html.replace(arr[i], `<mark>${arr[i]}<mark>`);
-    }
-  }
-  return {count: count, html: html};
+  //TODO
 }
 
 var selection, html;
