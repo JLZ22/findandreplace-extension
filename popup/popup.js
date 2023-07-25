@@ -1,4 +1,4 @@
-var dict = {phrase: "", status: ""};
+var dict = {phrase: "", status: "default"};
 
 /**
  * Gets string from text box in the popup script,
