@@ -1,4 +1,4 @@
-var dict = {phrase: "", status: "default"};
+let dict = {phrase: "", status: "default"};
 
 /**
  * Gets string from text box in the popup script,
@@ -8,7 +8,7 @@ var dict = {phrase: "", status: "default"};
 document.getElementById("phrase").addEventListener("input", (ev) => {
   ev.preventDefault();
   dict.phrase = document.getElementById("phrase").value;
-  sendData(dict);
+  sendData();
 });
 
 /**

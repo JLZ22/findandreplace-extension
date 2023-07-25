@@ -64,7 +64,7 @@ function highlight(text, el){ // TODO
   // el.append(t.slice(prev));
 }
 
-var selection;
+let selection;
 
 /**
  * Saves selection to variables every time mouse up.
