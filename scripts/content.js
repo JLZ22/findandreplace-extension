@@ -53,6 +53,7 @@ function highlightSelection(phrase, selection) {
   let count = 0;
   let anchorOffset = selection.anchorOffset;
   let focusOffset = selection.focusOffset;
+  selEdited = true;
   common.childNodes.forEach(element => {
     cloneOriginal.push(element.innerHTML);
     let temp = highlight(phrase, element, anchorOffset, focusOffset);
@@ -99,12 +100,14 @@ function returnToOriginal(selection) {
   for (let i = 0 ; i < nodes.length ; i++) {
     nodes.item[i].innerHTML = cloneOriginal[i].innerHTML;
   }
+  selEdited = false;
 }
 
 let selection;
+let selEdited = false;
 
 document.onselectionchange = () => {
-  returnToOriginal(selection)
+  if (selEdited) returnToOriginal(selection);
   selection = getSelected();
 }
 
