@@ -1,10 +1,5 @@
 let dict = {phrase: "", status: "default"};
 
-function getKeyByValue(object, value) {
-  return Object.keys(object).find(key => object[key] === value);
-}
-
-
 /**
  * Gets string from text box in the popup script,
  * adds it to a dictionary, and sends it to content script 
@@ -20,8 +15,8 @@ document.getElementById("phrase").addEventListener("input", (ev) => {
  * Sends the given String to the content script.
  */
 function sendData() {
-  for (let key in dict) {
-    console.log(getKeyByValue(dict, key) + ": " + key);
+  for (let key in message) {
+    console.log(key + ": " + message[key]);
   }
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     console.log("sending")

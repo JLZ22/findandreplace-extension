@@ -70,6 +70,8 @@ function highlightSelection(phrase, selection) {
  */
 function highlight(text, el, anchorOffset, focusOffset){ // TODO
   let h = el.innerHTML;
+  let temp = el;
+  temp.innerHTML = "";
   for (let i = 0 ; i < h.length ; i++) {
 
   }
@@ -111,10 +113,6 @@ document.onmouseup = () => {
   selection = getSelected();
 }
 
-function getKeyByValue(object, value) {
-  return Object.keys(object).find(key => object[key] === value);
-}
-
 /**
  * Listens to message from popup script and calls a handler
  * to perform actions on the current page according to the 
@@ -123,7 +121,7 @@ function getKeyByValue(object, value) {
 chrome.runtime.onMessage.addListener((message) => {
   console.log('selection: ' + selection);
   for (let key in message) {
-    console.log(getKeyByValue(message, key) + ": " + key);
+    console.log(key + ": " + message[key]);
   }
   handleRequest(message.phrase, selection, message.status);
 });
