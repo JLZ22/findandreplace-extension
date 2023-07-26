@@ -15,8 +15,8 @@ document.getElementById("phrase").addEventListener("input", (ev) => {
  * Sends the given String to the content script.
  */
 function sendData() {
-  for (let key in message) {
-    console.log(key + ": " + message[key]);
+  for (let key in dict) {
+    console.log(key + ": " + dict[key]);
   }
   chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
     console.log("sending")
