@@ -37,6 +37,7 @@ function handleRequest(phrase, selection, status) {
   let data = highlightSelection(phrase, selection);
 }
 
+let cloneOriginal; // store original state of elements that will be edited
 /**
  * Parses through the common ancestor node which is derived from the 
  * given selection and highlights all instances of the phrase (case insensitive)
@@ -50,8 +51,11 @@ function handleRequest(phrase, selection, status) {
 function highlightSelection(phrase, selection) {
   let common = selection.commonAncestorContainer;
   let count = 0;
+  let anchorOffset = selection.anchorOffset;
+  let focusOffset = selection.focusOffset;
   common.childNodes.forEach(element => {
-    let temp = highlight(phrase, element);
+    cloneOriginal.push(element.innerHTML);
+    let temp = highlight(phrase, element, anchorOffset, focusOffset);
     count += temp.count;
   });
   return {node: common, count: count};
@@ -61,10 +65,14 @@ function highlightSelection(phrase, selection) {
  * Highlights all instances of text in the node.
  * @param {String} text The text to be highlighted
  * @param {Element} el The element to be searched.
+ * @param {int} anchorOffset The index of the start of the selection in the first node.
+ * @param {int} focusOffset The index of the end of the selection in the last node. 
  */
-function highlight(text, el){ // TODO
+function highlight(text, el, anchorOffset, focusOffset){ // TODO
   let h = el.innerHTML;
+  for (let i = 0 ; i < h.length ; i++) {
 
+  }
   // let h = el.textContent;
   // el.textContent = '';
   // let idx, prev = 0;
@@ -79,13 +87,27 @@ function highlight(text, el){ // TODO
   // el.append(t.slice(prev));
 }
 
+/**
+ * Reverts the given selection.
+ * 
+ * @param {Selection} selection The selection that is to be reverted
+ */
+function returnToOriginal(selection) {
+  let nodes = selection.commonAncestorContainer.childNodes;
+  for (let i = 0 ; i < nodes.length ; i++) {
+    nodes.item[i].innerHTML = cloneOriginal[i].innerHTML;
+  }
+}
+
 let selection;
 
 document.onkeyup = () => {
+  returnToOriginal(selection)
   selection = getSelected();
 }
 
 document.onmouseup = () => {
+  returnToOriginal(selection)
   selection = getSelected();
 }
 
