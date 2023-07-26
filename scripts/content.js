@@ -111,6 +111,9 @@ document.onmouseup = () => {
   selection = getSelected();
 }
 
+function getKeyByValue(object, value) {
+  return Object.keys(object).find(key => object[key] === value);
+}
 
 /**
  * Listens to message from popup script and calls a handler
@@ -118,8 +121,9 @@ document.onmouseup = () => {
  * status from the message.
  */
 chrome.runtime.onMessage.addListener((message) => {
-  console.log('phrase: ' + message.phrase);
   console.log('selection: ' + selection);
-  console.log('status: ' + message.status)
+  for (let key in message) {
+    console.log(getKeyByValue(message, key) + ": " + key);
+  }
   handleRequest(message.phrase, selection, message.status);
 });
