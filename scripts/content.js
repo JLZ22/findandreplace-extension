@@ -1,4 +1,19 @@
 /**
+ * Gets the current selection
+ * 
+ * @returns Returns the current selection.
+ */
+function getSelected() {
+  let sel = "";
+  if (typeof window.getSelection != "undefined") {
+      sel = window.getSelection();
+  } else if (typeof document.selection != "undefined") {
+      sel = document.selection;
+  }
+  return sel;
+}
+
+/**
  * Sanitize and encode all HTML in a user-submitted string
  * (c) 2018 Chris Ferdinandi, MIT License, https://gomakethings.com
  * @param  {String} str  The user-submitted string
@@ -66,11 +81,12 @@ function highlight(text, el){ // TODO
 
 let selection;
 
-/**
- * Saves selection to variables every time mouse up.
- */
-onmouseup = () => {
-  selection = window.getSelection();
+document.onkeyup = () => {
+  selection = getSelected();
+}
+
+document.onmouseup = () => {
+  selection = getSelected();
 }
 
 
