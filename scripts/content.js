@@ -1,19 +1,4 @@
 /**
- * Gets the current selection
- * 
- * @returns Returns the current selection.
- */
-function getSelected() {
-  let sel = "";
-  if (typeof window.getSelection != "undefined") {
-      sel = window.getSelection();
-  } else if (typeof document.selection != "undefined") {
-      sel = document.selection;
-  }
-  return sel;
-}
-
-/**
  * Sanitize and encode all HTML in a user-submitted string
  * (c) 2018 Chris Ferdinandi, MIT License, https://gomakethings.com
  * @param  {String} str  The user-submitted string
@@ -108,7 +93,7 @@ let selEdited = false;
 
 document.onselectionchange = () => {
   if (selEdited) returnToOriginal(selection);
-  selection = getSelected();
+  selection = document.getSelection();
 }
 
 
