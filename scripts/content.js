@@ -103,15 +103,11 @@ function returnToOriginal(selection) {
 
 let selection;
 
-document.onkeyup = () => {
+document.onselectionchange = () => {
   returnToOriginal(selection)
   selection = getSelected();
 }
 
-document.onmouseup = () => {
-  returnToOriginal(selection)
-  selection = getSelected();
-}
 
 /**
  * Listens to message from popup script and calls a handler
