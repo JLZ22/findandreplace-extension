@@ -1,3 +1,5 @@
+let cloneOriginal = [[]]; // store original state of elements that will be edited
+
 /**
  * Sanitize and encode all HTML in a user-submitted string
  * (c) 2018 Chris Ferdinandi, MIT License, https://gomakethings.com
@@ -20,9 +22,15 @@ var sanitizeHTML = function (str) {
  */
 function handleRequest(phrase, selection, status) {
   let data = parseSelection(phrase, selection);
+  console.log("cloneOriginal: ");
+  cloneOriginal.forEach(e => {
+    e.forEach(a => {
+      console.log(a);
+    })
+  })
+  console.log("-----------------------------------------")
 }
 
-let cloneOriginal = [[]]; // store original state of elements that will be edited
 /**
  * Parses through the common ancestor node which is derived from the 
  * given selection and highlights all instances of the phrase (case insensitive)
@@ -76,11 +84,12 @@ function parseRange(phrase, range, arr, anchorOffset, focusOffset) {
  * @param {int} focusOffset The index of the end of the selection in the last node. 
  */
 function highlight(text, el, anchorOffset, focusOffset){ // TODO
-  let h = el.innerHTML;
+  // NOTE: do not store el.innerHTML in a variable
+  let count = 0;
   for (let i = 0 ; i < h.length ; i++) {
 
   }
-  return count
+  return count;
   // let h = el.textContent;
   // el.textContent = '';
   // let idx, prev = 0;
@@ -101,14 +110,15 @@ function highlight(text, el, anchorOffset, focusOffset){ // TODO
  * @param {Selection} selection The selection that is to be reverted
  */
 function returnToOriginal(selection) {
+  // NOTE: unknown if works or not
   for (let i = 0 ; i < selection.rangeCount ; i++) {
-    let r = selection.getRangeAt(i);
-    let nodes = r.commonAncestorContainer.childNodes;
-    for (let j = 0 ; j < nodes.length ; j++) {
-      nodes.item[j].innerHTML = cloneOriginal[i][j].innerHTML;
+    let len = selection.getRangeAt(i).commonAncestorContainer.childNodes.length;
+    for (let j = 0 ; j < len ; j++) {
+      selection.getRangeAt(i).commonAncestorContainer.childNodes.item[j].innerHTML = 
+      cloneOriginal[i][j].innerHTML;
     }
   }
-  cloneOriginal.length = 0;
+  cloneOriginal = [[]];
   selEdited = false;
 }
 
@@ -131,11 +141,5 @@ chrome.runtime.onMessage.addListener((message) => {
   for (let key in message) {
     console.log(key + ": " + message[key]);
   }
-  let x = selection.getRangeAt(0).commonAncestorContainer.childNodes;
-  x.forEach(element => {
-    if (element.nodeType == 1) {
-      element.innerHTML = "";
-    }
-  })
-  //handleRequest(message.phrase, selection, message.status);
+  handleRequest(message.phrase, selection, message.status);
 });
