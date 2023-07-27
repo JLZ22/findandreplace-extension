@@ -19,10 +19,10 @@ var sanitizeHTML = function (str) {
  * @param {String} status A string that indicates what request is being made.
  */
 function handleRequest(phrase, selection, status) {
-  let data = highlightSelection(phrase, selection);
+  let data = parseSelection(phrase, selection);
 }
 
-let cloneOriginal; // store original state of elements that will be edited
+let cloneOriginal = [[]]; // store original state of elements that will be edited
 /**
  * Parses through the common ancestor node which is derived from the 
  * given selection and highlights all instances of the phrase (case insensitive)
@@ -33,18 +33,39 @@ let cloneOriginal; // store original state of elements that will be edited
  * @returns A dictionary that has the number of occurences of the phrase
  *          and the common ancestor Node
  */
-function highlightSelection(phrase, selection) {
-  let common = selection.commonAncestorContainer;
-  let count = 0;
+function parseSelection(phrase, selection) {
   let anchorOffset = selection.anchorOffset;
   let focusOffset = selection.focusOffset;
+  let count = 0;
+  for (let i = 0 ; i < selection.rangeCount ; i++) {
+    let r = selection.getRangeAt(i);
+    count += parseRange(phrase, r, cloneOriginal[i], anchorOffset, focusOffset);
+  }
   selEdited = true;
+  return {count: count};
+}
+
+/**
+ * Search through the given range and highlight all occurences of the phrase. Stores 
+ * the HTML of all elements in the range before editing. 
+ * 
+ * @param {String} phrase The phrase that is being searched for.
+ * @param {Range} range The range that is to be parsed.
+ * @param {Array} arr Array storing the orriginal HTML of the elements in the range.
+ * @param {int} anchorOffset The index of the start of the selection in the first node.
+ * @param {int} focusOffset The index of the end of the selection in the last node. 
+ * @returns 
+ */
+function parseRange(phrase, range, arr, anchorOffset, focusOffset) {
+  let common = range.commonAncestorContainer;
+  let count = 0;
   common.childNodes.forEach(element => {
-    cloneOriginal.push(element.innerHTML);
-    let temp = highlight(phrase, element, anchorOffset, focusOffset);
-    count += temp.count;
+    arr.push(element.innerHTML);
+    if (element.nodeType == 1) {
+      count += highlight(phrase, element, anchorOffset, focusOffset);
+    }
   });
-  return {node: common, count: count};
+  return count;
 }
 
 /**
@@ -56,11 +77,10 @@ function highlightSelection(phrase, selection) {
  */
 function highlight(text, el, anchorOffset, focusOffset){ // TODO
   let h = el.innerHTML;
-  let temp = el;
-  temp.innerHTML = "";
   for (let i = 0 ; i < h.length ; i++) {
 
   }
+  return count
   // let h = el.textContent;
   // el.textContent = '';
   // let idx, prev = 0;
@@ -81,10 +101,14 @@ function highlight(text, el, anchorOffset, focusOffset){ // TODO
  * @param {Selection} selection The selection that is to be reverted
  */
 function returnToOriginal(selection) {
-  let nodes = selection.commonAncestorContainer.childNodes;
-  for (let i = 0 ; i < nodes.length ; i++) {
-    nodes.item[i].innerHTML = cloneOriginal[i].innerHTML;
+  for (let i = 0 ; i < selection.rangeCount ; i++) {
+    let r = selection.getRangeAt(i);
+    let nodes = r.commonAncestorContainer.childNodes;
+    for (let j = 0 ; j < nodes.length ; j++) {
+      nodes.item[j].innerHTML = cloneOriginal[i][j].innerHTML;
+    }
   }
+  cloneOriginal.length = 0;
   selEdited = false;
 }
 
@@ -107,5 +131,11 @@ chrome.runtime.onMessage.addListener((message) => {
   for (let key in message) {
     console.log(key + ": " + message[key]);
   }
-  handleRequest(message.phrase, selection, message.status);
+  let x = selection.getRangeAt(0).commonAncestorContainer.childNodes;
+  x.forEach(element => {
+    if (element.nodeType == 1) {
+      element.innerHTML = "";
+    }
+  })
+  //handleRequest(message.phrase, selection, message.status);
 });
