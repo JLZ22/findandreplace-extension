@@ -102,19 +102,20 @@ function highlight(text, el, anchorOffset, focusOffset){ // TODO
  * @param {Selection} selection The selection that is to be reverted
  */
 function returnToOriginal(selection) {
-  document.body.innerHTML = original;
+  document.body.replaceWith(original);
+  // document.body.innerHTML = original;
 }
 
 let selection;
 let selEdited = false;
-let original = document.body.innerHTML;
+let original = document.body.cloneNode(true);
 
 document.onload = () => {
-  original = document.body.innerHTML; 
+  original = document.body.cloneNode(true); 
   console.log(original);
 }
 
-document.onselectionchange = () => {
+document.onselectionchange = () => { // is buggy
   if (selEdited) 
     returnToOriginal(selection);
   selection = document.getSelection();
