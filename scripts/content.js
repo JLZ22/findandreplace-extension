@@ -1,5 +1,3 @@
-let cloneOriginal = [[]]; // store original state of elements that will be edited
-
 /**
  * Sanitize and encode all HTML in a user-submitted string
  * (c) 2018 Chris Ferdinandi, MIT License, https://gomakethings.com
@@ -22,13 +20,6 @@ var sanitizeHTML = function (str) {
  */
 function handleRequest(phrase, selection, status) {
   let data = parseSelection(phrase, selection);
-  console.log("cloneOriginal: ");
-  cloneOriginal.forEach(e => {
-    e.forEach(a => {
-      console.log(a);
-    })
-  })
-  console.log("-----------------------------------------")
 }
 
 /**
@@ -42,12 +33,13 @@ function handleRequest(phrase, selection, status) {
  *          and the common ancestor Node
  */
 function parseSelection(phrase, selection) {
+  if (selection == undefined) return {count: -1};
   let anchorOffset = selection.anchorOffset;
   let focusOffset = selection.focusOffset;
   let count = 0;
   for (let i = 0 ; i < selection.rangeCount ; i++) {
     let r = selection.getRangeAt(i);
-    count += parseRange(phrase, r, cloneOriginal[i], anchorOffset, focusOffset);
+    count += parseRange(phrase, r, anchorOffset, focusOffset);
   }
   selEdited = true;
   return {count: count};
@@ -59,16 +51,14 @@ function parseSelection(phrase, selection) {
  * 
  * @param {String} phrase The phrase that is being searched for.
  * @param {Range} range The range that is to be parsed.
- * @param {Array} arr Array storing the orriginal HTML of the elements in the range.
  * @param {int} anchorOffset The index of the start of the selection in the first node.
  * @param {int} focusOffset The index of the end of the selection in the last node. 
  * @returns 
  */
-function parseRange(phrase, range, arr, anchorOffset, focusOffset) {
+function parseRange(phrase, range, anchorOffset, focusOffset) {
   let common = range.commonAncestorContainer;
   let count = 0;
   common.childNodes.forEach(element => {
-    arr.push(element.innerHTML);
     if (element.nodeType == 1) {
       count += highlight(phrase, element, anchorOffset, focusOffset);
     }
@@ -86,7 +76,9 @@ function parseRange(phrase, range, arr, anchorOffset, focusOffset) {
 function highlight(text, el, anchorOffset, focusOffset){ // TODO
   // NOTE: do not store el.innerHTML in a variable
   let count = 0;
-  for (let i = 0 ; i < h.length ; i++) {
+  let len = el.innerHTML;
+  el.innerHTML = "<mark>" + el.innerHTML + "</mark>"; // TEMPORARY
+  for (let i = 0 ; i < len ; i++) {
 
   }
   return count;
@@ -110,23 +102,21 @@ function highlight(text, el, anchorOffset, focusOffset){ // TODO
  * @param {Selection} selection The selection that is to be reverted
  */
 function returnToOriginal(selection) {
-  // NOTE: unknown if works or not
-  for (let i = 0 ; i < selection.rangeCount ; i++) {
-    let len = selection.getRangeAt(i).commonAncestorContainer.childNodes.length;
-    for (let j = 0 ; j < len ; j++) {
-      selection.getRangeAt(i).commonAncestorContainer.childNodes.item[j].innerHTML = 
-      cloneOriginal[i][j].innerHTML;
-    }
-  }
-  cloneOriginal = [[]];
-  selEdited = false;
+  document.body.innerHTML = original;
 }
 
 let selection;
 let selEdited = false;
+let original = document.body.innerHTML;
+
+document.onload = () => {
+  original = document.body.innerHTML; 
+  console.log(original);
+}
 
 document.onselectionchange = () => {
-  if (selEdited) returnToOriginal(selection);
+  if (selEdited) 
+    returnToOriginal(selection);
   selection = document.getSelection();
 }
 
@@ -141,5 +131,6 @@ chrome.runtime.onMessage.addListener((message) => {
   for (let key in message) {
     console.log(key + ": " + message[key]);
   }
+  console.log("original: " + original);
   handleRequest(message.phrase, selection, message.status);
 });
