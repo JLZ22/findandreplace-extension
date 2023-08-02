@@ -4,8 +4,8 @@
  * @param  {String} str  The user-submitted string
  * @return {String} str  The sanitized string
  */
-var sanitizeHTML = function (str) {
-	var temp = document.createElement('div');
+let sanitizeHTML = function (str) {
+	let temp = document.createElement('div');
 	temp.textContent = str;
 	return temp.innerHTML;
 };
@@ -73,51 +73,29 @@ function parseRange(phrase, range, anchorOffset, focusOffset) {
  * @param {int} anchorOffset The index of the start of the selection in the first node.
  * @param {int} focusOffset The index of the end of the selection in the last node. 
  */
-function highlight(text, el, anchorOffset, focusOffset){ // TODO
-  // NOTE: do not store el.innerHTML in a variable
-  let count = 0;
-  let len = el.innerHTML;
-  el.innerHTML = "<mark>" + el.innerHTML + "</mark>"; // TEMPORARY
-  for (let i = 0 ; i < len ; i++) {
-
-  }
-  return count;
-  // let h = el.textContent;
-  // el.textContent = '';
-  // let idx, prev = 0;
-  // while((idx = t.indexOf(text, prev)) !== -1){
-  //   el.append(t.slice(prev, idx));
-  //   const a = document.createElement('a');
-  //   a.href = '/' + text;
-  //   a.textContent = text;
-  //   el.appendChild(a);
-  //   prev = idx + text.length;
-  // }
-  // el.append(t.slice(prev));
+function highlight(text, el, anchorOffset, focusOffset) { // TODO
+  let regex = new RegExp(text, "gi");
+  el.innerHTML.replaceAll(regex, "<mark>$1</mark>");
+  // el.innerHTML = "<mark>" + el.innerHTML + "</mark>";
+  return (temp.match(regex) || []).length;
+  // return 0;
 }
 
 /**
- * Reverts the given selection.
- * 
- * @param {Selection} selection The selection that is to be reverted
+ * Reverts the given selection by removing spans.
  */
-function returnToOriginal(selection) {
-  document.body.replaceWith(original);
-  // document.body.innerHTML = original;
+function returnToOriginal() {
+  // let spans = document.getElementsByTagName("mark");
+  // for (let i = 0; i < spans.length; i++) {
+  //   spans[i].remove();
+  // }
 }
 
 let selection;
 let selEdited = false;
-let original = document.body.cloneNode(true);
-
-document.onload = () => {
-  original = document.body.cloneNode(true); 
-  console.log(original);
-}
 
 document.onselectionchange = () => { // is buggy
-  if (selEdited) 
-    returnToOriginal(selection);
+  if (selEdited) returnToOriginal();
   selection = document.getSelection();
 }
 
@@ -132,6 +110,5 @@ chrome.runtime.onMessage.addListener((message) => {
   for (let key in message) {
     console.log(key + ": " + message[key]);
   }
-  console.log("original: " + original);
   handleRequest(message.phrase, selection, message.status);
 });
